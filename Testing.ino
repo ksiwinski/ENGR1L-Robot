@@ -158,7 +158,7 @@ void loop() {
       intake.run();	
     }
     check();
-    delay(1000);
+    delay(5000);
     open();
     delay(1000);
     buttonPressed++;
