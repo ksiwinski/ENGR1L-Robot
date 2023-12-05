@@ -3,7 +3,7 @@
 #include <Servo.h>
 
 //Positions for the lifitng servo
-#define LIFT 150
+#define LIFT 100
 #define BASE 30
 #define TRIGGER 0
 
@@ -40,7 +40,7 @@ void setup() {
 
   intakeStepper.setMaxSpeed(1000.0);
   intakeStepper.setAcceleration(50.0);
-	intakeStepper.setSpeed(1000);
+	intakeStepper.setSpeed(500);
 
   pinMode(buzzer, OUTPUT);
   pinMode(button, INPUT);
@@ -54,8 +54,7 @@ void setup() {
 
 //Turns intake on
 void intake(){
-  intakeStepper.move(2038);
-  intakeStepper.run();
+  intakeStepper.move(203800);
   return;
 }
 
@@ -68,14 +67,14 @@ void intake(){
 
 //Drives a specified distance in centimeters (testing needed)
 void drive(int distance){
-  leftStepper.move(int((distance)/(2*3.1415*6.7))*2038);
-  rightStepper.move(int((distance)/(2*3.1415*6.7))*-2038);
-
+  int rotation = int((distance)/(2*3.1415*6.7))*-2038
+  leftStepper.move(-1*rotation);
+  rightStepper.move(rotation);
 }
 
 //Opens releases boxes
 void open(){
-  goSlow(openServo, 0, 90, 5);
+  goSlow(openServo, 30, 90, 5);
   goSlow(liftServo, BASE, TRIGGER, 5);
   delay(100);
   
@@ -145,7 +144,7 @@ void loop() {
     noTone(buzzer);
     delay(500);
     liftServo.write(BASE);
-    openServo.write(1);
+    openServo.write(0);
     digitalWrite(laser, HIGH);
     buttonPressed ++;
   }
