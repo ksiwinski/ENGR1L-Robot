@@ -31,11 +31,11 @@ void setup() {
   //Sets speeds and accelerqation for stepper motors
   leftStepper.setMaxSpeed(1000.0);
 	leftStepper.setAcceleration(50.0);
-	leftStepper.setSpeed(1000);
+	leftStepper.setSpeed(500);
 
   rightStepper.setMaxSpeed(1000.0);
   rightStepper.setAcceleration(500.0);
-	rightStepper.setSpeed(1000);
+	rightStepper.setSpeed(500);
 
   intakeStepper.setMaxSpeed(1000.0);
   intakeStepper.setAcceleration(50.0);
@@ -63,24 +63,24 @@ void turn(int angle){
 
 //Drives a specified distance in centimeters (testing needed)
 void drive(int distance){
-  leftStepper.move(int((distance)/(2*3.1415*6.7))*-2038);
-  rightStepper.move(int((distance)/(2*3.1415*6.7))*2038);
+  leftStepper.move(int((distance)/(2*3.1415*6.7))*2038);
+  rightStepper.move(int((distance)/(2*3.1415*6.7))*-2038);
   return;
 }
 
 //Opens releases boxes
 void open(){
-  goSlow(openServo, 0, 90);
-  goSlow(liftServo, BASE, TRIGGER);
+  goSlow(openServo, 0, 90, 5);
+  goSlow(liftServo, BASE, TRIGGER, 5);
   delay(100);
   return;
 }
 
-void goSlow(Servo servo, int curPos, int newPos){
+void goSlow(Servo servo, int curPos, int newPos, int delay){
   if(curPos < newPos){
     for(int i = curPos; i < newPos; i++){
       servo.write(i);
-      delay(10);
+      delay(delay);
     }
   }
   else{
@@ -93,9 +93,9 @@ void goSlow(Servo servo, int curPos, int newPos){
 
 //Lifts a box
 void lift(){
-  goSlow(liftServo, BASE, LIFT);
+  goSlow(liftServo, BASE, LIFT, 10);
   delay(500);
-  goSlow(liftServo, LIFT, BASE);
+  goSlow(liftServo, LIFT, BASE, 10);
   return;
 }
 
@@ -150,15 +150,17 @@ void loop() {
     delay(500);
     noTone(buzzer);
     delay(500);
-    lift();
-    delay(1000);
-    open();
-    delay(1000);
     drive(50);
+    intake();
     while (leftStepper.distanceToGo() != 0 || rightStepper.distanceToGo() != 0){
       leftStepper.run();
       rightStepper.run();
+      intake.run();	
     }
+    check();
+    delay(1000);
+    open();
+    delay(1000);
     buttonPressed++;
   }
 }
