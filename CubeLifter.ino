@@ -19,7 +19,7 @@ int button = 12;
 int photoresistor = A0;
 int laser = 13;
 
-//Creates stepper motor objects
+//Creates stepper motor objects, 4 sets the motors as HALFSTEP, the next 4 are the pins (order IN1, IN3, IN2, IN4)
 AccelStepper intakeStepper(4, 0, 2, 1, 3);
 AccelStepper rightStepper(4, 4, 6, 5, 7);
 AccelStepper leftStepper(4, 8, 10, 9, 11);
@@ -28,19 +28,20 @@ AccelStepper leftStepper(4, 8, 10, 9, 11);
 void setup() {  
   Serial.begin(1200);
   Serial.println("STARTING");
-  //Sets speeds and accelerqation for stepper motors
+  //Sets speeds and acceleration for stepper motors
   leftStepper.setMaxSpeed(1000.0);
-	leftStepper.setAcceleration(50.0);
-	leftStepper.setSpeed(200);
+  leftStepper.setAcceleration(50.0);
+  leftStepper.setSpeed(200);
 
   rightStepper.setMaxSpeed(1000.0);
   rightStepper.setAcceleration(50.0);
-	rightStepper.setSpeed(200);
+  rightStepper.setSpeed(200);
 
   intakeStepper.setMaxSpeed(1000.0);
   intakeStepper.setAcceleration(50.0);
-	intakeStepper.setSpeed(400);
+  intakeStepper.setSpeed(400);
 
+  //Sets pins as inout/output
   pinMode(buzzer, OUTPUT);
   pinMode(button, INPUT);
   pinMode(photoresistor, INPUT);
