@@ -164,7 +164,7 @@ void loop() {
     }
     check();
     delay(5000);
-    open();
+    //open();
     delay(1000);
     buttonPressed++;
   }
